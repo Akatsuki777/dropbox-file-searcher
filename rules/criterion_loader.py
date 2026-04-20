@@ -5,9 +5,10 @@ from helpers.operators import ops
 
 class CriterionLoader:
 
-    def __init__(self, json_file):
+    def __init__(self, json_file, logger=None):
         self.json_file = json_file
         self.criteria = self.load_criteria()
+        self.logger = logger
 
     def load_criteria(self):
         with open(self.json_file, 'r') as file:
@@ -18,9 +19,13 @@ class CriterionLoader:
         for criterion in self.criteria["criteria"]:
             if len(criterion["properties"]) > 1:
                 if not self.check_multiple_criteria(criterion, file_record):
+                    if self.logger:
+                        self.logger.warning(f"File {file_record.name} failed criterion: {criterion['name']}")
                     return False
             else:
                 if not self.check_single_criterion(criterion, file_record):
+                    if self.logger:
+                        self.logger.warning(f"File {file_record.name} failed criterion: {criterion['name']}")
                     return False
 
         return True
