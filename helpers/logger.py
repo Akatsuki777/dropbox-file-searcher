@@ -11,4 +11,7 @@ def setup_logger():
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
     fh.setFormatter(formatter)
     logger.addHandler(fh)
+
+    logger.info(f'*** Logger initialized - Session {datetime.now().strftime("%Y-%m-%d %H:%M:%S")} ***')
+
     return logger

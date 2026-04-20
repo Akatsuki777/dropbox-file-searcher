@@ -4,9 +4,8 @@ import os
 
 class DropboxClient:
 
-    def __init__(self, dotenv_path='.env', logger=None):
-        dotenv.load_dotenv(dotenv_path)
-        self.dbx = dropbox.Dropbox(os.getenv('DROPBOX_TOKEN'))
+    def __init__(self, token, logger=None):
+        self.dbx = dropbox.Dropbox(token)
         self.logger = logger
 
     def search_files(self, query, path=''):
@@ -26,6 +25,9 @@ class DropboxClient:
             if self.logger:
                 self.logger.error(f"API error: {e}")
             return None
+        
+    def is_folder(self, metadata):
+        return isinstance(metadata, dropbox.files.FolderMetadata)
     
     def create_folder(self, path):
         try:

@@ -5,7 +5,7 @@
          "properties": ["extension"],
          "operations": ["=="],
          "description": "Filter images by their file type.",
-         "values": ["jpg", "png", "gif", "psd", "cr2", "nef"]
+         "values": [ "psd"]
       },
       {
          "name": "Size",
@@ -13,13 +13,6 @@
          "operations": [">"],
          "description": "Filter images based on their file size.",
          "values": [1048576]
-      },
-      {
-        "name": "Bytes Per Pixel",
-        "properties": [ "size", "resolution"],
-        "operations": ["/",">"],
-        "description": "Filter images based on their bytes per pixel.",
-        "values": [1]
       }
 
    ]
