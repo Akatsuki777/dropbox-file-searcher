@@ -7,24 +7,26 @@ from dotenv import load_dotenv
 import csv
 import re
 import os
+import sys
 
 if __name__ == "__main__":
 
     load_dotenv()
+    
+    move_path = os.getenv("MOVEFOLDER")
 
-    print(os.getenv("DROPBOX_KEY"))
-    if not os.path.exists("resources/active_products.csv"):
-        get_active_products()
+    if not os.path.exists("resources/active_files.csv"):
+        raise FileNotFoundError("Active files file not found inside resources/active_files.csv. Please generate the file.")
 
     logger = setup_logger()
     criterion_loader = CriterionLoader("config/criteria.json", logger=logger)
     dropbox_client = DropboxClient(token=os.getenv("DROPBOX_KEY"), logger=logger)
 
-    with open("resources/active_products.csv", mode='r') as csv_file:
-        product_names = csv.DictReader(csv_file)
-        for product in product_names:
-            re_pattern = re.compile(r'\b' + re.escape(product['Name']) + r'\b', re.IGNORECASE)
-            matches = dropbox_client.search_files(product['Name'])
+    with open("resources/active_files.csv", mode='r') as csv_file:
+        file_names = csv.DictReader(csv_file)
+        for file_name in file_names:
+            re_pattern = re.compile(r'\b' + re.escape(file_name['Name']) + r'\b', re.IGNORECASE)
+            matches = dropbox_client.search_files(file_name['Name'])
 
             for match in matches:
                 metadata = dropbox_client.get_file_metadata(match.metadata.id)
@@ -52,9 +54,9 @@ if __name__ == "__main__":
 
                 if criterion_loader.verify_criteria(file_record):
                     if os.getenv("TESTMODE") == "1":
-                        logger.info(f"File {file_record.name} passed all criteria and would be moved to /FullSize Images/")
+                        logger.info(f"File {file_record.name} passed all criteria and would be moved to {move_path}/")
                     else:
-                        dropbox_client.move_file(file_record.path, f"/FullSize Images/{file_record.name}")
+                        dropbox_client.move_file(file_record.path, f"{move_path}/{file_record.name}")
         
                     break
         
