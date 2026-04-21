@@ -1,3 +1,4 @@
 .env
-.getActiveProducts.py
-wc_products.csv
+getActiveProducts.py
+resources/wc_products.csv
+resources/active_products.csv
