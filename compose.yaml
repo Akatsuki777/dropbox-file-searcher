@@ -1,0 +1,13 @@
+services:
+  dropbox-file-searcher:
+    build: .
+    image: dropbox-file-searcher:latest
+
+    env_file:
+      - .env
+    
+    volumes:
+      - ./resources:/app/resources
+      - ./output:/app/output
+
+    restart: no

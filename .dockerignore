@@ -1,0 +1,10 @@
+.env
+.git
+.DS_Store
+.dropbox-images
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+output/
