@@ -6,12 +6,12 @@ def setup_logger():
     logger = logging.getLogger('DropboxImageSearcher')
     logger.setLevel(logging.INFO)
 
-    fh = logging.FileHandler(f'app_{datetime.now().strftime("%Y-%m-%d")}.log')
+    fh = logging.FileHandler(f'app_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.log')
     fh.setLevel(logging.INFO)
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
     fh.setFormatter(formatter)
     logger.addHandler(fh)
 
-    logger.info(f'*** Logger initialized - Session {datetime.now().strftime("%Y-%m-%d %H:%M:%S")} ***')
+    logger.info(f'*** Logger initialized - Session {datetime.now().strftime("%Y-%m-%d_%H-%M-%S")} ***')
 
     return logger
