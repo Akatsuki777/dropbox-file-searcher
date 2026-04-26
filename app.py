@@ -12,15 +12,16 @@ import sys
 if __name__ == "__main__":
 
     load_dotenv()
-    
-    move_path = os.getenv("MOVEFOLDER")
+
+    dropbox_key = os.getenv("DROPBOX_KEY")
+    move_path = os.getenv("MOVE_PATH")
 
     if not os.path.exists("resources/active_files.csv"):
         raise FileNotFoundError("Active files file not found inside resources/active_files.csv. Please generate the file.")
 
     logger = setup_logger()
     criterion_loader = CriterionLoader("config/criteria.json", logger=logger)
-    dropbox_client = DropboxClient(token=os.getenv("DROPBOX_KEY"), logger=logger)
+    dropbox_client = DropboxClient(token=dropbox_key, logger=logger)
 
     with open("resources/active_files.csv", mode='r') as csv_file:
         file_names = csv.DictReader(csv_file)

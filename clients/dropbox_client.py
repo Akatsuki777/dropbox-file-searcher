@@ -5,8 +5,14 @@ import os
 class DropboxClient:
 
     def __init__(self, token, logger=None):
-        self.dbx = dropbox.Dropbox(token)
         self.logger = logger
+        try:
+            self.dbx = dropbox.Dropbox(token)
+        except Exception as e:
+            print(f"Failed to initialize Dropbox client: {e}")
+            if self.logger:
+                self.logger.error(f"Failed to initialize Dropbox client: {e}")
+            raise e
 
     def search_files(self, query, path=''):
         try:

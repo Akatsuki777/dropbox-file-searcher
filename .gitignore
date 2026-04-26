@@ -2,3 +2,4 @@
 .DS_Store
 getActiveProducts.py
 resources/*.csv
+output/*
